@@ -28,11 +28,12 @@ app.get('/add', async (req, res) => {
     
 
 // données qu'on souhaite ajouté en bdd
-const username = "Marc";
+const username = "boli";
 const mail = "marc@secure.com";
 const pass = "sécurisé";
 // cryptage du mot de passe
-const passHash = await bcrypt.hash(pass.toString(), 5);
+const passHash = await bcrypt.hash(pass, 5);
+await bcrypt.compare(pass, passHash);
 
 bcrypt.compare(pass, passHash, (err, result) => {
     console.log(result); 
@@ -45,9 +46,15 @@ res.json({add: true});
 })
 
 
+app.get('/test', async (req, res) => {
+    const hash = await bcrypt.hash("foo", 8);
+    const result = await bcrypt.compare("foo", hash)
+    res.send(result);// true
+})
+
 app.get('/auth', async (req, res) => {
-    const pseudo = "Poo";
-    const pass2 = "";
+    const pseudo = "boli";
+    const pass2 = "sécurisé";
 
     try {
         const [user] = await query("SELECT * FROM users WHERE pseudo = ?", [pseudo]);
