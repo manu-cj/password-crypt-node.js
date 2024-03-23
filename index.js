@@ -1,5 +1,5 @@
 const express = require("express");
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const mysql = require('mysql2/promise');
 
 const app = express();
@@ -28,11 +28,11 @@ app.get('/add', async (req, res) => {
     
 
 // données qu'on souhaite ajouté en bdd
-const username = "Poo";
+const username = "Marc";
 const mail = "marc@secure.com";
-const pass = "";
+const pass = "sécurisé";
 // cryptage du mot de passe
-const passHash = await bcrypt.hash(pass, 5);
+const passHash = await bcrypt.hash(pass.toString(), 5);
 
 bcrypt.compare(pass, passHash, (err, result) => {
     console.log(result); 
